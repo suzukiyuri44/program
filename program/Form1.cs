@@ -38,6 +38,12 @@ namespace program
             g.Dispose();
             // ビットマップをボタンの背景にセット
             label5.Image = bgc;
+
+            timer1.Interval = 1000;
+            timer1.Enabled = true;
+            timer1.Tick += timer1_Tick;
+            timer1.Start();
+
         }
         private void button4_Click(object sender, EventArgs e)
         {
@@ -56,23 +62,22 @@ namespace program
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            DateTime now = DateTime.Now;
-            timer1.Interval = 1000;
-            timer1.Enabled = true;
-            label5.Text = now.ToString("HH:mm:ss");
+            label5.Text = DateTime.Now.ToString("HH:mm:ss");
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "すべてのファイル (*.*)|*.*";
-            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            openFileDialog.Title = Message_manage.Title1;
-            DialogResult result = openFileDialog.ShowDialog();
-            if (result == DialogResult.OK)
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                string filePath = openFileDialog.FileName;
-                textBox1.Text = filePath;
+                openFileDialog.Filter = "すべてのファイル (*.*)|*.*";
+                openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                openFileDialog.Title = Message_manage.Title1;
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = openFileDialog.FileName;
+                    textBox1.Text = filePath;
+                }
             }
         }
         private void button2_Click(object sender, EventArgs e)
@@ -135,10 +140,10 @@ namespace program
             {
                 Form2 form2 = new Form2();
                 form2.Label3Text = label3.Text;
-                this.Hide();
-                form2.Show();
-                DataReceived = form2.TextBox5Value;
-
+                if (form2.ShowDialog() == DialogResult.OK)
+                {
+                    DataReceived = form2.TextBox5Value;
+                }
             }
         }
 

@@ -56,6 +56,7 @@ namespace program
         //コンボボックスのデータセット
         private void LoadComboBoxData1()
         {
+            comboBox1.SelectedIndexChanged -= ComboBox_SelectedIndexChanged;
             comboBox1.Items.Clear();
             comboBox1.Items.AddRange(new string[] { "", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" });
             comboBox1.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
@@ -64,8 +65,9 @@ namespace program
         // データセット2
         private void LoadComboBoxData2()
         {
+            comboBox1.SelectedIndexChanged -= ComboBox_SelectedIndexChanged;
             comboBox1.Items.Clear();
-            comboBox1.Items.AddRange(new string[] { "", "Jan", "Feb", "May", "Jun", "Jul", "Set", "Oct", "Aug", "Nov", "Dec" });
+            comboBox1.Items.AddRange(new string[] { "", "Jan", "Feb", "May", "Jun", "Jul", "Sep", "Oct", "Aug", "Nov", "Dec" });
             comboBox1.SelectedIndexChanged += ComboBox_SelectedIndexChanged;
         }
 

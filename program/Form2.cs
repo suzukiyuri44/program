@@ -25,42 +25,36 @@ namespace program
             get { return label3.Text; }
             set { label3.Text = value; }
         }
+
+        private void SetTextBoxes(Func<string, string> processor)
+        {
+            string labelcontent = Label3Text;
+            string[] splitcontent = labelcontent.Split(',');
+
+            for (int i = 0; i < splitcontent.Length; i++)
+            {
+                splitcontent[i] = processor(splitcontent[i]);
+            }
+
+            textBox1.Text = splitcontent.Length > 0 ? splitcontent[0] : "";
+            textBox2.Text = splitcontent.Length > 1 ? splitcontent[1] : "";
+            textBox3.Text = splitcontent.Length > 2 ? splitcontent[2] : "";
+            textBox4.Text = splitcontent.Length > 3 ? splitcontent[3] : "";
+        }
+
         private void button1_Click(object sender, EventArgs e)
         {
-            String labelcontent = Label3Text;
-            String[] splitcontent = labelcontent.Split(',');
-            if (splitcontent.Length > 0) textBox1.Text = splitcontent.Length > 0 ? splitcontent[0] : "";
-            if (splitcontent.Length > 1) textBox2.Text = splitcontent.Length > 1 ? splitcontent[1] : "";
-            if (splitcontent.Length > 2) textBox3.Text = splitcontent.Length > 2 ? splitcontent[2] : "";
-            if (splitcontent.Length > 3) textBox4.Text = splitcontent.Length > 3 ? splitcontent[3] : "";
+            SetTextBoxes(division => division);
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            String labelcontent = Label3Text;
-            String[] splitcontent = labelcontent.Split(',');
-            for (int i = 0; i < splitcontent.Length; i++)
-            {
-                splitcontent[i] = splitcontent[i].Trim();
-            }
-            if (splitcontent.Length > 0) textBox1.Text = splitcontent.Length > 0 ? splitcontent[0] : "";
-            if (splitcontent.Length > 1) textBox2.Text = splitcontent.Length > 1 ? splitcontent[1] : "";
-            if (splitcontent.Length > 2) textBox3.Text = splitcontent.Length > 2 ? splitcontent[2] : "";
-            if (splitcontent.Length > 3) textBox4.Text = splitcontent.Length > 3 ? splitcontent[3] : "";
+            SetTextBoxes(division => division.Trim());
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
-            String labelcontent = Label3Text;
-            String[] splitcontent = labelcontent.Split(',');
-            for (int i = 0; i < splitcontent.Length; i++)
-            {
-                splitcontent[i] = splitcontent[i].Replace(" ", "").Replace("　", "");
-            }
-            if (splitcontent.Length > 0) textBox1.Text = splitcontent.Length > 0 ? splitcontent[0] : "";
-            if (splitcontent.Length > 1) textBox2.Text = splitcontent.Length > 1 ? splitcontent[1] : "";
-            if (splitcontent.Length > 2) textBox3.Text = splitcontent.Length > 2 ? splitcontent[2] : "";
-            if (splitcontent.Length > 3) textBox4.Text = splitcontent.Length > 3 ? splitcontent[3] : "";
+            SetTextBoxes(division => division.Replace(" ", "").Replace("　", ""));
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -80,9 +74,9 @@ namespace program
         {
             int intValue = Convert.ToInt32(numericUpDown1.Value);
             richTextBox1.Clear();
-            for (int i = 0; i <= intValue; i++)
+            for (int i = 1; i <= intValue; i++)
             {
-                for (int j = 0; j <= i; j++)
+                for (int j = 1; j <= i; j++)
                 {
                     richTextBox1.AppendText(j + " ");
                 }
@@ -93,22 +87,15 @@ namespace program
         public string TextBox5Value
         {
             get { return textBox5.Text; }
-            set { textBox5.Text = value; }
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
             try
             {
-                Form1 form1 = (Form1)Application.OpenForms["Form1"];
-
-                if (form1 != null)
-                {
-                    form1.DataReceived = textBox5.Text;
-                    form1.Show();
-                }
-
+                this.DialogResult = DialogResult.OK;
                 this.Close();
+
             }
             catch (Exception ex)
             {
